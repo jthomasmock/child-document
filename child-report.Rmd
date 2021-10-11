@@ -1,0 +1,36 @@
+---
+output: html_document
+---
+
+### `r params$title`
+
+```{r, echo = FALSE, results = 'asis'}
+cat(params$description)
+```
+
+```{r, echo = FALSE}
+my_penguins <- palmerpenguins::penguins %>% 
+  filter(species == params$species) %>% 
+  filter(str_detect(island, params$regex))
+```
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+my_penguins %>% 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm)) +
+  geom_point() +
+  labs(title = glue::glue("Plot on {params$species} penguins"))
+```
+
+### Table alternative
+
+```{r, echo = FALSE}
+my_penguins %>% 
+  filter(!is.na(sex)) %>% 
+  group_by(sex) %>% 
+  summarise(across(bill_length_mm:body_mass_g, mean)) %>% 
+  gt() %>% 
+  tab_header(glue::glue("Summary Table on {params$species} penguins"))
+```
+
+

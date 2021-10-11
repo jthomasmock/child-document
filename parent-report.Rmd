@@ -1,0 +1,88 @@
+---
+title: "A fancy report"
+output: html_document
+params:
+  species: "Gentoo"
+  title: "Important Penguin Plot"
+  description: "default text"
+  regex: "o"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(gt)
+```
+
+
+# Parent Doc
+
+This is a report about fancy penguins.
+
+If the condition is met we can add in our specific child document.
+
+```{r dayOfWeek}
+day_of_week <- lubridate::ymd(Sys.Date()) %>% 
+  wday(label= TRUE) %>% 
+  as.character()
+day_of_week
+```
+
+---
+
+# Can use `results='asis'`
+
+If you just want to add a title and some text, `results='asis'` in a chunk + `cat()` is a quick and easy option.
+
+This option just used to generate some of the text inline, as opposed to all the plots/etc.
+
+```{r asisDoc, echo = FALSE, results='asis'}
+if(day_of_week %in% c("Mon", "Tues")){
+  glue::glue(
+    "### {params$title}",
+    "\n",
+    "{params$description}"
+  ) %>% 
+    cat(sep = "\n")
+}
+```
+
+---
+
+# Use of Child report
+
+This will be used to generate a more complex output with tables, plots, etc, and a child RMarkdown.
+
+```{r childReport, child=if(day_of_week %in% c("Mon", "Tues"))'child-report.Rmd'}
+```
+
+---
+
+# Alternate with use of `whisker`
+
+This reads in a RMarkdown, fills all the components where `{{ }}` are observed, and then writes out the components. Note that you need to wrap text with `"` to get the correct outputs, and you need to pass the outputs more directly, since `whisker` is "logicless" it can't parse R code, but rather just R objects.
+
+```{r whiskerDoc, echo = FALSE, results = 'asis'}
+if(day_of_week %in% c("Mon", "Tues")){
+  # have to extract the params ahead of time 
+  # and then feed them into whisker
+  
+  input_title <- params$title
+  input_species <- params$species
+  input_desc <- params$description
+  input_regex <- params$regex
+  raw_text <- readLines("whisker-child.Rmd")
+  filled_text <- whisker::whisker.render(raw_text)
+  
+  # now we can use our 'in memory' child RMarkdown
+  # that has been filled and generate the output
+  whisker_output <- knitr::knit_child(
+    text = filled_text, 
+    envir = environment(), 
+    quiet = TRUE
+    )
+  
+  cat(whisker_output, sep = "\n")
+}
+```
+

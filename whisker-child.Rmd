@@ -1,0 +1,32 @@
+### `{{input_title}}`
+
+```{r, echo = FALSE, results = 'asis'}
+cat("{{input_desc}}")
+```
+
+```{r, echo = FALSE}
+my_penguins <- palmerpenguins::penguins %>% 
+  filter(species == "{{input_species}}") %>% 
+  filter(str_detect(island, "{{input_regex}}"))
+```
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+my_penguins %>% 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm)) +
+  geom_point() +
+  labs(title = "Plot on {{input_species}} penguins")
+```
+
+### Table alternative
+
+```{r, echo = FALSE}
+my_penguins %>% 
+  filter(!is.na(sex)) %>% 
+  group_by(sex) %>% 
+  summarise(across(bill_length_mm:body_mass_g, mean)) %>% 
+  gt() %>% 
+  tab_header("Summary Table on {{input_species}} penguins")
+```
+
+
