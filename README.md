@@ -3,7 +3,7 @@
 
 The goal of child-document is to show a quick reprex of Dr. Mowinckel's question:
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rmd wishlist: a parametrized sub-section. <br><br>A way to input whole sections (text and chunks) with some parameters. I have q&#39;s following two basic logics, and thus two sets of text+chunk based on these. I&#39;d love to not copy+paste + edit all these sections, just input as sub-report</p>&mdash; Athanasia Mowinckel (@DrMowinckels) <a href="https://twitter.com/DrMowinckels/status/1447518834005532676?ref_src=twsrc%5Etfw">October 11, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rmd wishlist: a parametrized sub-section. <br><br>A way to input whole sections (text and chunks) with some parameters. I have q&#39;s following two basic logics, and thus two sets of text+chunk based on these. I&#39;d love to not copy+paste + edit all these sections, just input as sub-report</p>&mdash; Athanasia Mowinckel (@DrMowinckels) <a href="https://twitter.com/DrMowinckels/status/1447518834005532676?ref_src=twsrc%5Etfw">October 11, 2021</a></blockquote>
 
 ### Workflow
 
